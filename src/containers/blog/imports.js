@@ -1,13 +1,13 @@
-import blog01 from '../../assets/js-banner.jpg';
-import blog02 from '../../assets/html-banner.jpg';
-import blog03 from '../../assets/css-tutorial.jpg';
-import blog04 from '../../assets/csharp-banner.png';
-import blog05 from '../../assets/sql-banner.jpg';
+import jsbanner from '../../assets/js-banner.jpg';
+import htmlbanner from '../../assets/html-banner.jpg';
+import cssbanner from '../../assets/css-tutorial.jpg';
+import csharpbanner from '../../assets/csharp-banner.png';
+import sqlbanner from '../../assets/sql-banner.jpg';
 
 export {
-  blog01,
-  blog02,
-  blog03,
-  blog04,
-  blog05,
+  jsbanner,
+  htmlbanner,
+  cssbanner,
+  csharpbanner,
+  sqlbanner,
 };

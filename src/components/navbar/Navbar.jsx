@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import logo from '../../logo.svg';
+import { HashLink as Link } from 'react-router-hash-link';
 import './navbar.css';
 
 const Navbar = () => {
@@ -13,10 +14,10 @@ const Navbar = () => {
           <img src={logo} />
         </div>
         <div className="gpt3__navbar-links_container">
-          <p><a href="#home">Inicio</a></p>
-          <p><a href="#wgpt3">Información</a></p>
-          <p><a href="#features">Currículo</a></p>
-          <p><a href="#blog">Cursos</a></p>
+          <p><Link to="#inicio">Inicio</Link></p>
+          <p><Link to="#info">Información</Link></p>
+          <p><Link to="#curriculo">Currículo</Link></p>
+          <p><Link to="#cursos">Cursos</Link></p>
         </div>
       </div>
       <div className="gpt3__navbar-sign">
@@ -30,10 +31,10 @@ const Navbar = () => {
         {toggleMenu && (
         <div className="gpt3__navbar-menu_container scale-up-center">
           <div className="gpt3__navbar-menu_container-links">
-            <p><a href="#home">Inicio</a></p>
-            <p><a href="#wgpt3">Información</a></p>
-            <p><a href="#features">Currículo</a></p>
-            <p><a href="#blog">Cursos</a></p>
+            <p><Link to="#inicio">Inicio</Link></p>
+            <p><Link to="#info">Información</Link></p>
+            <p><Link to="#curriculo">Currículo</Link></p>
+            <p><Link to="#cursos">Cursos</Link></p>
           </div>
           <div className="gpt3__navbar-menu_container-links-sign">
             <p>Ingresar</p>

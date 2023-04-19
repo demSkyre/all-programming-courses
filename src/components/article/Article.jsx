@@ -1,7 +1,7 @@
 import React from 'react';
 import './article.css';
 
-const Article = ({ imgUrl, date, text }) => (
+const Article = ({ imgUrl, date, text, onClickFunction }) => (
   <div className="gpt3__blog-container_article">
     <div className="gpt3__blog-container_article-image">
       <img src={imgUrl} alt="blog_image" />
@@ -11,7 +11,7 @@ const Article = ({ imgUrl, date, text }) => (
         <p>{date}</p>
         <h3>{text}</h3>
       </div>
-      <p>Ir a curso</p>
+      <p onClick={onClickFunction}><u>Ir a curso</u></p>
     </div>
   </div>
 );

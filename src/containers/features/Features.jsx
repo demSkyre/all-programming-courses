@@ -26,7 +26,7 @@ const featuresData = [
 ];
 
 const Features = () => (
-  <div className="gpt3__features section__padding" id="features">
+  <div className="gpt3__features section__padding" id="curriculo">
     <div className="gpt3__features-heading">
       <h1 className="gradient__text">Información sobre los cursos que se van a brindar y aquellos que se planean para futuros proyectos.</h1>
     </div>

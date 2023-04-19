@@ -1,10 +1,9 @@
 import React from 'react';
-import people from '../../assets/people.png';
 import circuitcircle from '../../assets/circuitcircle.png';
 import './header.css';
 
 const Header = () => (
-  <div className="gpt3__header section__padding" id="home">
+  <div className="gpt3__header section__padding" id="inicio">
     <div className="gpt3__header-content">
       <h1 className="gradient__text">Bienvenido a Cursos sobre todo Programación</h1>
       <p>El portal de conocimiento es una plataforma para el aprendizaje de diversos lenguajes de programación a través de cursos gratuitos por parte de la institución.</p>
