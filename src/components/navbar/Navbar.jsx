@@ -2,10 +2,22 @@ import React, { useState } from 'react';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
 import logo from '../../logo.svg';
 import { HashLink as Link } from 'react-router-hash-link';
+import { useNavigate } from "react-router-dom";
 import './navbar.css';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+
+  let navigate = useNavigate(); 
+
+  const routeChangeRegister = () =>{ 
+    let path = `/register`; 
+    navigate(path);
+  }
+  const routeChangeLogin = () =>{ 
+    let path = `/login`; 
+    navigate(path);
+  }
 
   return (
     <div className="gpt3__navbar">
@@ -21,8 +33,8 @@ const Navbar = () => {
         </div>
       </div>
       <div className="gpt3__navbar-sign">
-        <p>Ingresar</p>
-        <button type="button">Registrarse</button>
+        <p onClick={routeChangeLogin}>Ingresar</p>
+        <button type="button" onClick={routeChangeRegister}>Registrarse</button>
       </div>
       <div className="gpt3__navbar-menu">
         {toggleMenu
@@ -37,8 +49,8 @@ const Navbar = () => {
             <p><Link to="#cursos">Cursos</Link></p>
           </div>
           <div className="gpt3__navbar-menu_container-links-sign">
-            <p>Ingresar</p>
-            <button type="button">Registrarse</button>
+            <p onClick={routeChangeLogin}>Ingresar</p>
+            <button type="button" onClick={routeChangeRegister}>Registrarse</button>
           </div>
         </div>
         )}

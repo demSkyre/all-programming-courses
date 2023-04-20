@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import './App.css';
 import Home from './components/home/Home';
-import Landing from './components/compiler/Landing';
 import Layout from './components/course_layout/Layout';
+import Register from './components/register/Register';
+import Login from './components/login/Login';
 import ScrollToTop from './utils/ScrollToTop';
 
 const App = () => (
@@ -12,8 +13,9 @@ const App = () => (
     <ScrollToTop>
       <Routes>
         <Route exact path="/" element={<Home/>} />
-        <Route path="landing" element={<Landing/>}/>
         <Route path="course" element={<Layout/>}/>
+        <Route path="register" element={<Register/>}/>
+        <Route path="login" element={<Login/>}/>
       </Routes>
     </ScrollToTop>
   </BrowserRouter>
