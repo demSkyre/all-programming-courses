@@ -10,12 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { defineTheme } from "../../lib/defineTheme";
 import useKeyPress from "../../hooks/useKeyPress";
 import OutputWindow from "./OutputWindow";
-import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
 
-const javascriptDefault = `/**
+var javascriptDefault = `/**
 * Problem: Binary Search: Search a sorted array for a target value.
 */
 // Time: O(log n)
@@ -42,8 +41,8 @@ const target = 5;
 console.log(binarySearch(arr, target));
 `;
 
-const Landing = () => {
-  const [code, setCode] = useState(javascriptDefault);
+const Landing = ({ jsDefault }) => {
+  const [code, setCode] = useState(jsDefault);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
@@ -234,7 +233,7 @@ const Landing = () => {
               onClick={handleCompile}
               disabled={!code}
               className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+                "font-bold mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-gray-300 flex-shrink-0",
                 !code ? "opacity-50" : ""
               )}
             >

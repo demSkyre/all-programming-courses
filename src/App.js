@@ -5,14 +5,17 @@ import './App.css';
 import Home from './components/home/Home';
 import Landing from './components/compiler/Landing';
 import Layout from './components/course_layout/Layout';
+import ScrollToTop from './utils/ScrollToTop';
 
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route exact path="/" element={<Home/>} />
-      <Route path="landing" element={<Landing/>}/>
-      <Route path="course" element={<Layout/>}/>
-    </Routes>
+    <ScrollToTop>
+      <Routes>
+        <Route exact path="/" element={<Home/>} />
+        <Route path="landing" element={<Landing/>}/>
+        <Route path="course" element={<Layout/>}/>
+      </Routes>
+    </ScrollToTop>
   </BrowserRouter>
 );
 
