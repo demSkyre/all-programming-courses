@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { defineTheme } from "../../lib/defineTheme";
 import useKeyPress from "../../hooks/useKeyPress";
-import Footer from "./Footer";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import OutputDetails from "./OutputDetails";
@@ -55,7 +54,7 @@ const Landing = () => {
   const ctrlPress = useKeyPress("Control");
 
   const onSelectChange = (sl) => {
-    console.log("selected Option...", sl);
+    console.log("Option seleccionado...", sl);
     setLanguage(sl);
   };
 
@@ -73,20 +72,100 @@ const Landing = () => {
         break;
       }
       default: {
-        console.warn("case not handled!", action, data);
+        console.warn("caso no soportado!", action, data);
       }
     }
   };
   const handleCompile = () => {
-    // We will come to the implementation later in the code
+    setProcessing(true);
+    const formData = {
+      language_id: language.id,
+      // encode source code in base64
+      source_code: btoa(code),
+      stdin: btoa(customInput),
+    };
+    const options = {
+      method: "POST",
+      url: process.env.REACT_APP_RAPID_API_URL,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      },
+      data: formData,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res.data", response.data);
+        const token = response.data.token;
+        checkStatus(token);
+      })
+      .catch((err) => {
+        let error = err.response ? err.response.data : err;
+        // get error status
+        let status = err.response.status;
+        console.log("status", status);
+        if (status === 429) {
+          console.log("muchas solicitudes...", status);
+
+          showErrorToast(
+            `Cuota de 100 llamadas por dia ha sido excedida! Porfavor incrementar la cantidad de llamadas por dia en RAPID API Judge0!`,
+            10000
+          );
+        }
+        setProcessing(false);
+        console.log("catch block...", error);
+      });
   };
 
   const checkStatus = async (token) => {
-    // We will come to the implementation later in the code
+    const options = {
+      method: "GET",
+      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+      },
+    };
+    try {
+      let response = await axios.request(options);
+      let statusId = response.data.status?.id;
+
+      // Processed - we have a result
+      if (statusId === 1 || statusId === 2) {
+        // still processing
+        setTimeout(() => {
+          checkStatus(token);
+        }, 2000);
+        return;
+      } else {
+        setProcessing(false);
+        setOutputDetails(response.data);
+        showSuccessToast(`Compiled Successfully!`);
+        console.log("response.data", response.data);
+        return;
+      }
+    } catch (err) {
+      console.log("err", err);
+      setProcessing(false);
+      showErrorToast();
+    }
   };
 
   function handleThemeChange(th) {
-    // We will come to the implementation later in the code
+    const theme = th;
+    console.log("theme...", theme);
+
+    if (["light", "vs-dark"].includes(theme.value)) {
+      setTheme(theme);
+    } else {
+      defineTheme(theme.value).then((_) => setTheme(theme));
+    }
   }
   useEffect(() => {
     defineTheme("oceanic-next").then((_) =>
@@ -95,7 +174,7 @@ const Landing = () => {
   }, []);
 
   const showSuccessToast = (msg) => {
-    toast.success(msg || `Compiled Successfully!`, {
+    toast.success(msg || `Compilado exitosamente!`, {
       position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -105,10 +184,10 @@ const Landing = () => {
       progress: undefined,
     });
   };
-  const showErrorToast = (msg) => {
-    toast.error(msg || `Something went wrong! Please try again.`, {
+  const showErrorToast = (msg, timer) => {
+    toast.error(msg || `Algo salio mal! Porfavor intenta de nuevo.`, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: timer ? timer : 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -130,8 +209,7 @@ const Landing = () => {
         draggable
         pauseOnHover
       />
-      <div className="h-4 w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
-      <div className="flex flex-row">
+      <div className="flex flex-row pt-4">
         <div className="px-4 py-2">
           <LanguagesDropdown onSelectChange={onSelectChange} />
         </div>
@@ -152,10 +230,6 @@ const Landing = () => {
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <OutputWindow outputDetails={outputDetails} />
           <div className="flex flex-col items-end">
-            <CustomInput
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            />
             <button
               onClick={handleCompile}
               disabled={!code}
@@ -164,13 +238,12 @@ const Landing = () => {
                 !code ? "opacity-50" : ""
               )}
             >
-              {processing ? "Processing..." : "Compile and Execute"}
+              {processing ? "Procesando..." : "Compilar y Ejecutar"}
             </button>
           </div>
           {outputDetails && <OutputDetails outputDetails={outputDetails} />}
         </div>
       </div>
-      <Footer />
     </>
   );
 };
